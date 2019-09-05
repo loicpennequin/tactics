@@ -1,0 +1,66 @@
+{
+    "name": "tactics-app",
+    "description": "Electron + Create React App + Electron Builder",
+    "version": "0.0.1",
+    "private": true,
+    "author": {
+        "name": "Daria",
+        "email": "lo.pennequin@gmail.com",
+        "url": "https://your-website.com"
+    },
+    "build": {
+        "appId": "com.daria.tactics-app",
+        "productName": "Tactics",
+        "artifactName": "tactics_installer_${version}.${ext}",
+        "copyright": "Copyright © 2019 ${author}",
+        "mac": {
+            "category": "public.app-category.utilities"
+        },
+        "files": [
+            "build/**/*",
+            "node_modules/**/*"
+        ],
+        "directories": {
+            "buildResources": "assets"
+        }
+    },
+    "dependencies": {
+        "electron-is-dev": "^1.0.1",
+        "react": "^16.9.0",
+        "react-dom": "^16.9.0",
+        "react-router": "^5.0.1",
+        "react-scripts": "^3.1.1",
+        "styled-components": "^4.3.2"
+    },
+    "homepage": "./",
+    "main": "public/electron.js",
+    "scripts": {
+        "start": "rescripts start",
+        "build": "rescripts build",
+        "test": "rescripts test",
+        "eject": "react-scripts eject",
+        "electron-dev": "concurrently \"npm start\" \"wait-on http://localhost:3000 && electron .\"",
+        "postinstall": "electron-builder install-app-deps",
+        "preelectron-pack": "npm run build",
+        "electron-pack": "build -w",
+        "postelectron-pack": "node tools/scripts/postbuild.js"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not ie <= 11",
+        "not op_mini all"
+    ],
+    "devDependencies": {
+        "@rescripts/cli": "^0.0.10",
+        "@rescripts/rescript-env": "^0.0.5",
+        "concurrently": "^4.1.0",
+        "electron": "^4.0.6",
+        "electron-builder": "^20.38.5",
+        "typescript": "^3.3.3333",
+        "wait-on": "^3.2.0"
+    }
+}

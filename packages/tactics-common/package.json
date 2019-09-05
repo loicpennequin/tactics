@@ -1,0 +1,9 @@
+{
+    "name": "tactics-common",
+    "version": "0.0.1",
+    "description": "common package for Tactics application",
+    "main": "src/index.js",
+    "keywords": [],
+    "author": "Daria",
+    "license": "ISC"
+}
