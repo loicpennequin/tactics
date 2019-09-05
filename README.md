@@ -6,7 +6,7 @@ TODO description
 
 -   clone repo
 -   make sure MySQL is started
--   `npm install`
+-   `npm run setup`
 -   follow the command line to create your environnement file for the server
 -   `npm run dev` will start the server and the electron app
 -   `npm run start:server` will only start the server
