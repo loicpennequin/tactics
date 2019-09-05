@@ -8,3 +8,4 @@ export { isOBject } from './isObject';
 export { noop } from './noop';
 export { snakeToCamel } from './snakeToCamel';
 export { throttle } from './throttle';
+export { isDefined, isUndefined } from './isUndefined';

@@ -11,7 +11,9 @@ export {
     noop,
     snakeToCamel,
     throttle,
-    requireDirectory
+    requireDirectory,
+    isDefined,
+    isUndefined
 } from './helpers/index';
 
 export { paths };
