@@ -7,10 +7,22 @@
     "author": "Daria",
     "license": "ISC",
     "dependencies": {
+        "babel-loader": "^8.0.6",
+        "clean-webpack-plugin": "^3.0.0",
+        "css-hot-loader": "^1.4.4",
+        "css-loader": "^3.2.0",
         "express": "^4.17.1",
         "express-handlebars": "^3.1.0",
         "handlebars": "^4.2.0",
+        "mini-css-extract-plugin": "^0.8.0",
+        "node-sass": "^4.12.0",
+        "optimize-css-assets-webpack-plugin": "^5.0.3",
+        "sass-loader": "^8.0.0",
+        "style-loader": "^1.0.0",
+        "uglifyjs-webpack-plugin": "^2.2.0",
         "webpack": "^4.39.3",
-        "webpack-dev-middleware": "^3.7.1"
+        "webpack-cli": "^3.3.8",
+        "webpack-dev-middleware": "^3.7.1",
+        "write-file-webpack-plugin": "^4.5.1"
     }
 }
