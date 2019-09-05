@@ -13,7 +13,8 @@
         "migrate:make": "npm -C ./packages/tactics-server run migrate:make",
         "migrate:latest": "npm -C ./packages/tactics-server run migrate:latest",
         "migrate:rollback": "npm -C ./packages/tactics-server run migrate:rollback",
-        "postinstall": "npm run bootstrap && npm run create:env && npm run create:db"
+        "presetup": "npm install",
+        "setup": "npm run bootstrap && npm run create:env && npm run create:db"
     },
     "version": "0.0.1",
     "main": "index.js",
