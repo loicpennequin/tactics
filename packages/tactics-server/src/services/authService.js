@@ -1,7 +1,5 @@
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
-import crypto from 'crypto';
-import mailService from '../services/mailService';
 import errorFactory from '../factories/errorFactory';
 import serviceFactory from '../factories/serviceFactory';
 import config from '../config';
@@ -27,6 +25,14 @@ class AuthService {
         return token;
     }
 
+    _checkTokenExpiration(token) {
+        const { exp } = jwt.verify(token, config.REFRESH_TOKEN.SECRET);
+
+        if (Date.now() > exp) {
+            throw errorFactory.tokenExpired();
+        }
+    }
+
     _onJWTAuthenticateFailed(res, err) {
         const { httpError, ...error } = errorFactory.unauthorized(
             'Authentication failed.',
@@ -40,16 +46,8 @@ class AuthService {
             const user = await models.user.findOne({
                 refresh_token: req.cookies.refresh_token
             });
-            const token = jwt.verify(
-                req.cookies.refresh_token,
-                config.REFRESH_TOKEN.SECRET
-            );
-
-            if (Date.now() > token.exp) {
-                throw errorFactory.tokenExpired();
-            } else {
-                return user;
-            }
+            this._checkTokenExpiration(req.cookies.refresh_token);
+            return user;
         }
     }
 
@@ -80,25 +78,18 @@ class AuthService {
         passport.authenticate('jwt', { session: false }, async (err, user) => {
             try {
                 if (err) throw errorFactory.internalServerError(undefined, err);
-
-                if (!user) {
-                    user = await this._getUserFromRefreshToken(req);
-                }
+                if (!user) user = await this._getUserFromRefreshToken(req);
             } catch (err) {
                 return this._onJWTAuthenticateFailed(res, err);
             }
 
             req.login(user, { session: false }, async err => {
                 if (err) {
-                    const {
-                        httpError,
-                        ...error
-                    } = errorFactory.internalServerError();
+                    // prettier-ignore
+                    const {httpError,...error} = errorFactory.internalServerError();
 
-                    res.status(httpError || 500).json({
-                        error: true,
-                        ...error
-                    });
+                    // prettier-ignore
+                    res.status(httpError || 500).json({error: true,...error});
                 }
             });
         })(req, res);
@@ -107,15 +98,16 @@ class AuthService {
     async login(req, res) {
         return new Promise((resolve, reject) => {
             passport.authenticate('local', { session: false }, (err, user) => {
-                if (err) {
-                    reject(errorFactory.internalServerError());
-                } else if (!user) {
+                if (err)
+                    reject(errorFactory.internalServerError(undefined, err));
+                else if (!user)
                     reject(errorFactory.unauthorized('Invalid credentials'));
-                }
 
                 req.login(user, { session: false }, async err => {
                     if (err) {
-                        reject(errorFactory.internalServerError());
+                        reject(
+                            errorFactory.internalServerError(undefined, err)
+                        );
                     }
 
                     await this._setCookies(res, user);
@@ -133,28 +125,7 @@ class AuthService {
         };
     }
 
-    async sendResetPasswordEmail({ email }) {
-        const user = await models.user.findOne({ email });
-        const token = crypto.randomBytes(20).toString('hex');
-        await models.user.update(
-            {
-                reset_password_token: token,
-                reset_password_token_expire:
-                    Date.now() + config.RESET_PASSWORD.EXPIRE
-            },
-            { id: user.id }
-        );
-
-        await mailService.sendMail({
-            from: config.MAILER.ADDRESS,
-            to: user.toJSON().email,
-            subject: 'password reset',
-            text: `Yo dawg reset yo email : ${config.WEBSITE_URL}/reset_password/${token}`
-        });
-        return { message: 'ok' };
-    }
-
-    async checkExpireTokenValidity(token) {
+    async checkResetPasswordTokenValidity(token) {
         try {
             const user = await models.user.findOne({
                 reset_password_token: token
@@ -168,7 +139,7 @@ class AuthService {
                 return { message: 'ok' };
             }
         } catch (err) {
-            throw errorFactory.tokenExpired('Refresh Token expired', err);
+            return errorFactory.tokenExpired('Refresh Token expired', err);
         }
     }
 

@@ -1,13 +1,16 @@
 import passport from 'passport';
 import errorService from '../services/errorService';
 import authService from '../services/authService';
+import mailService from '../services/mailService';
 import ensureAuth from '../middlewares/ensureAuth';
 import { paths } from 'tactics-common';
 
-
 export default function(app) {
     app.use(passport.initialize());
-    app.post(paths.LOGIN, errorService.wrap((req, res) => authService.login(req, res)));
+    app.post(
+        paths.LOGIN,
+        errorService.wrap((req, res) => authService.login(req, res))
+    );
     app.get(
         paths.IS_LOGGED_IN,
         ensureAuth,
@@ -20,15 +23,20 @@ export default function(app) {
     );
     app.post(
         paths.RESET_PASSWORD,
-        errorService.wrap((req, res) => authService.sendResetPasswordEmail(req.body))
+        errorService.wrap((req, res) =>
+            mailService.sendResetPasswordEmail(req.body)
+        )
     );
     app.put(
         paths.RESET_PASSWORD,
-        errorService.wrap((req, res) => authService.resetPassword(req.body, req.query.token))
+        errorService.wrap((req, res) =>
+            authService.resetPassword(req.body, req.query.token)
+        )
     );
     app.get(
         paths.RESET_PASSWORD,
-        errorService.wrap((req, res) => authService.checkExpireTokenValidity(req.query.token))
+        errorService.wrap((req, res) =>
+            authService.checkResetPasswordTokenValidity(req.query.token)
+        )
     );
-
 }
