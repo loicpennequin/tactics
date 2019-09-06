@@ -63,7 +63,9 @@ module.exports = env => {
             new webpack.DefinePlugin({
                 __PORT__: '"' + env.__PORT__ + '"'
             }),
-            new CleanWebpackPlugin(),
+            new CleanWebpackPlugin({
+                cleanAfterEveryBuildPatterns: ['!.gitkeep']
+            }),
             new webpack.HotModuleReplacementPlugin(),
             new webpack.NoEmitOnErrorsPlugin(),
             new MiniCssExtractPlugin({

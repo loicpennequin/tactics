@@ -6,6 +6,8 @@ node_modules/
 **/*.exe
 **/build/
 **/dist/
+packages/tactics-website/public/**
+!packages/tactics-website/public/gitkeep
 
 # environnement configuration
 **/.env
