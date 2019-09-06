@@ -4,17 +4,16 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const UglifyWebpackPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const WriteFilePlugin = require('write-file-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = env => {
     const isProd = env.NODE_ENV === 'production';
     return {
         mode: env.NODE_ENV,
-        target: 'web',
         devtool: 'inline-source-maps',
         entry: {
             home: path.resolve(__dirname, 'src/home.js'),
-            signup: path.resolve(__dirname, 'src/home.js')
+            signup: path.resolve(__dirname, 'src/signup.js')
         },
         output: {
             path: path.resolve(__dirname, 'public'),
@@ -22,8 +21,14 @@ module.exports = env => {
         },
         devServer: {
             contentBase: path.resolve(__dirname, 'public'),
-            historyApiFallback: true,
-            hot: true
+            hot: true,
+            writeToDisk: true,
+            historyApiFallback: {
+                rewrites: [
+                    { from: /^\/$/, to: '/home.html' },
+                    { from: /^\/signup/, to: '/signup.html' }
+                ]
+            }
         },
         module: {
             rules: [
@@ -58,11 +63,23 @@ module.exports = env => {
                 __ENV__: '"' + env.NODE_ENV + '"'
             }),
             new CleanWebpackPlugin(),
-            new WriteFilePlugin(),
+            new webpack.HotModuleReplacementPlugin(),
+            new webpack.NoEmitOnErrorsPlugin(),
             new MiniCssExtractPlugin({
                 filename: '[name].css'
             }),
-            new webpack.HotModuleReplacementPlugin()
+            new HtmlWebpackPlugin({
+                template: path.resolve(__dirname, 'src/views/home.html'),
+                filename: 'home.html',
+                inject: 'body',
+                chunks: ['home']
+            }),
+            new HtmlWebpackPlugin({
+                template: path.resolve(__dirname, 'src/views/signup.html'),
+                filename: 'signup.html',
+                inject: 'body',
+                chunks: ['signup']
+            })
         ],
         optimization: {
             minimizer: [
