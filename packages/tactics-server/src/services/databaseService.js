@@ -8,7 +8,7 @@ import modelFactory from '../factories/modelFactory';
 import serviceFactory from '../factories/serviceFactory';
 
 class DatabaseService {
-    constructor(){
+    constructor() {
         this.bookshelfInstance = Bookshelf(knex(config.DB))
             .plugin('visibility')
             .plugin('registry')

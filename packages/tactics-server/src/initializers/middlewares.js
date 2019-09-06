@@ -6,10 +6,13 @@ import cookieParser from 'cookie-parser';
 import logRequest from '../middlewares/logRequest';
 import express from 'express';
 import websiteApp from 'tactics-website';
+import cors from 'cors';
 
 export default function(app) {
     if (process.env.NODE_ENV === 'production') {
         app.use(enforce.HTTPS({ trustProtoHeader: true }));
+    } else {
+        app.use(cors());
     }
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));

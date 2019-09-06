@@ -10,7 +10,11 @@ const PUBLIC_PATH = path.join(__dirname, '../public');
 app.use('/', express.static(PUBLIC_PATH));
 
 if (process.env.NODE_ENV === 'development') {
-    const cfg = webpackConfig({ NODE_ENV: process.env.NODE_ENV });
+    const cfg = webpackConfig({
+        __DEV__: process.env.NODE_ENV === 'development',
+        __PORT__: process.env.PORT
+    });
+
     const options = cfg.devServer;
     webpackDevServer.addDevServerEntrypoints(cfg, options);
     const compiler = webpack(cfg);

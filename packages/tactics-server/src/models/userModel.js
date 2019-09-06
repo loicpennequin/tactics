@@ -14,30 +14,29 @@ const userModel = databaseService.createModel('User', {
     ],
     bcrypt: { field: 'password' },
 
-    teams(){
+    teams() {
         return this.hasMany('Team', 'user_id');
     },
 
-    heroes(){
+    heroes() {
         return this.belongsToMany('Hero', 'user_heroes', 'hero_id', 'user_id');
     },
 
-    items(){
+    items() {
         return this.belongsToMany('Item', 'user_items', 'item_id', 'user_id');
     },
 
     async asyncValidators() {
         const { email } = this.attributes;
-        
+
         let count;
         if (this.isNew()) {
-            count = await userModel
-                .query({where: { email }})
-                .count('id');
+            count = await userModel.query({ where: { email } }).count('id');
         } else {
-            count = await userModel.query(qb => {
-                qb.where({ email }).andWhere('id', '<>', this.id);
-            })
+            count = await userModel
+                .query(qb => {
+                    qb.where({ email }).andWhere('id', '<>', this.id);
+                })
                 .count('id');
         }
         if (count > 0) {
@@ -47,7 +46,7 @@ const userModel = databaseService.createModel('User', {
 
     getValidators() {
         const { password } = this.attributes;
-
+        console.log('user model validators');
         return Joi.object().keys({
             id: Joi.number().positive(),
             username: Joi.string()

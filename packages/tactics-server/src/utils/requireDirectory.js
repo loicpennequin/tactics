@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { arrayToObject } from './arrayToObject';
+import { arrayToObject } from 'tactics-common';
 
 export function requireDirectory(dirname, toRemove) {
     return arrayToObject(

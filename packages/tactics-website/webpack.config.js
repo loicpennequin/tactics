@@ -7,9 +7,9 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = env => {
-    const isProd = env.NODE_ENV === 'production';
+    const isProd = !env.__DEV__;
     return {
-        mode: env.NODE_ENV,
+        mode: env.__DEV__ ? 'development' : 'production',
         devtool: 'inline-source-maps',
         entry: {
             home: path.resolve(__dirname, 'src/home.js'),
@@ -23,6 +23,7 @@ module.exports = env => {
             contentBase: path.resolve(__dirname, 'public'),
             hot: true,
             writeToDisk: true,
+            stats: 'minimal',
             historyApiFallback: {
                 rewrites: [
                     { from: /^\/$/, to: '/home.html' },
@@ -60,7 +61,7 @@ module.exports = env => {
         },
         plugins: [
             new webpack.DefinePlugin({
-                __ENV__: '"' + env.NODE_ENV + '"'
+                __PORT__: '"' + env.__PORT__ + '"'
             }),
             new CleanWebpackPlugin(),
             new webpack.HotModuleReplacementPlugin(),

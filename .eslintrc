@@ -1,16 +1,13 @@
 {
-    "extends": [
-        "prettier",
-        "react-app"
-    ],
-    "plugins": [
-        "react-hooks"
-    ],
+    "extends": ["prettier", "react-app"],
+    "plugins": ["react-hooks"],
     "parser": "babel-eslint",
     "globals": {
         "React": true,
         "logger": true,
-        "cfg": true
+        "cfg": true,
+        "__PORT__": true,
+        "__DEV__": true
     },
     "rules": {
         "arrow-spacing": [
@@ -21,48 +18,30 @@
             }
         ],
         "no-duplicate-case": 2,
-        "handle-callback-err": [
-            2,
-            "^(err|error)$"
-        ],
+        "handle-callback-err": [2, "^(err|error)$"],
         "react/prop-types": [
             2,
             {
-                "ignore": [
-                    "children"
-                ]
+                "ignore": ["children"]
             }
         ],
         "jsx-a11y/anchor-is-valid": 0,
         "no-var": 2,
         "no-unsafe-finally": 2,
         "no-unsafe-negation": 2,
-        "strict": [
-            2,
-            "never"
-        ],
+        "strict": [2, "never"],
         "no-invalid-regexp": 2,
         "spaced-comment": [
             2,
             "always",
             {
                 "line": {
-                    "markers": [
-                        "*package",
-                        "!",
-                        ","
-                    ]
+                    "markers": ["*package", "!", ","]
                 },
                 "block": {
                     "balanced": true,
-                    "markers": [
-                        "*package",
-                        "!",
-                        ","
-                    ],
-                    "exceptions": [
-                        "*"
-                    ]
+                    "markers": ["*package", "!", ","],
+                    "exceptions": ["*"]
                 }
             }
         ],
@@ -77,10 +56,7 @@
         "no-useless-call": 2,
         "no-console": 0,
         "no-constant-condition": 0,
-        "jsx-quotes": [
-            "warn",
-            "prefer-double"
-        ],
+        "jsx-quotes": ["warn", "prefer-double"],
         "quotes": [
             "error",
             "single",
@@ -89,10 +65,7 @@
                 "allowTemplateLiterals": true
             }
         ],
-        "semi": [
-            "error",
-            "always"
-        ],
+        "semi": ["error", "always"],
         "indent": [
             2,
             4,

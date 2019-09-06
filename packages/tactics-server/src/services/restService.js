@@ -1,3 +1,5 @@
+import { log } from 'util';
+
 export default class RestService {
     constructor(model) {
         this.model = model;
