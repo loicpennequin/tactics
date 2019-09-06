@@ -27,7 +27,6 @@ const teamHeroModel = databaseService.createModel('TeamHero', {
     },
 
     getValidators() {
-        console.log('teamHero model validators');
         return Joi.object().keys({
             id: Joi.number().positive(),
             hero_id: Joi.number().positive(),

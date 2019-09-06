@@ -4,18 +4,20 @@ exports.seed = async function(knex) {
     await knex('users').insert({
         username: 'Daria',
         email: 'daria@gmail.com',
-        password: bcrypt.hashSync('azerty', 12)
+        password: bcrypt.hashSync('azerty', 12),
+        created_at: new Date(),
+        updated_at: new Date()
     });
 
     await knex('heroes').insert([
-        {name: 'Wizard'},
-        {name: 'Knight'},
-        {name: 'Hunter'},
+        { name: 'Wizard' },
+        { name: 'Knight' },
+        { name: 'Hunter' }
     ]);
-    
+
     await knex('items').insert([
-        {name: 'Sword', type: 0},
-        {name: 'Shielf', type: 1},
-        {name: 'Necklace', type: 2},
+        { name: 'Sword', type: 0 },
+        { name: 'Shielf', type: 1 },
+        { name: 'Necklace', type: 2 }
     ]);
 };

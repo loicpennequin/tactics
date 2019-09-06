@@ -46,7 +46,6 @@ const userModel = databaseService.createModel('User', {
 
     getValidators() {
         const { password } = this.attributes;
-        console.log('user model validators');
         return Joi.object().keys({
             id: Joi.number().positive(),
             username: Joi.string()

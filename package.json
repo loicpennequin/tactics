@@ -5,7 +5,7 @@
         "bootstrap": "lerna bootstrap",
         "create:package": "node tools/createPackage.js",
         "create:db": "npm -C ./packages/tactics-server run create:db",
-        "create:env": "npm -C ./packages/tactics-server run create:env",
+        "create:env": "npm -C ./packages/tactics-app run create:env && npm -C ./packages/tactics-server run create:env",
         "build:app": "npm -C ./packages/tactics-app run electron-pack",
         "dev": "concurrently -n server,app \"npm run start:server\" \"wait-on http://localhost:8000 && npm run start:client\"",
         "start:server": "npm -C ./packages/tactics-server run dev ..",

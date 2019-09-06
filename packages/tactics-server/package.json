@@ -14,7 +14,7 @@
         "migrate:latest": "knex migrate:latest",
         "migrate:rollback": "knex migrate:rollback",
         "create:db": "node ./tools/scripts/createDb.js",
-        "create:env": "node ./tools/scripts/environnement.js"
+        "create:env": "node ./tools/scripts/environment.js"
     },
     "dependencies": {
         "apollo-server-express": "^2.9.3",

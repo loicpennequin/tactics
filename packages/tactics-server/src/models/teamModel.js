@@ -23,8 +23,6 @@ const teamModel = databaseService.createModel('Team', {
     },
 
     getValidators() {
-        console.log('team model validators');
-
         return Joi.object().keys({
             id: Joi.number().positive(),
             name: Joi.string().required(),
