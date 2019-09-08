@@ -2,19 +2,20 @@
     "name": "root",
     "private": true,
     "scripts": {
-        "bootstrap": "lerna bootstrap",
+        "bootstrap": "lerna bootstrap --hoist",
         "create:package": "node tools/createPackage.js",
         "create:db": "npm -C ./packages/tactics-server run create:db",
         "create:env": "npm -C ./packages/tactics-app run create:env && npm -C ./packages/tactics-server run create:env",
         "build:app": "npm -C ./packages/tactics-app run electron-pack",
         "dev": "concurrently -n server,app \"npm run start:server\" \"wait-on http://localhost:8000 && npm run start:client\"",
-        "start:server": "npm -C ./packages/tactics-server run dev ..",
-        "start:client": "npm -C ./packages/tactics-app run electron-dev ..",
+        "start:server": "npm -C ./packages/tactics-server run dev",
+        "start:client": "npm -C ./packages/tactics-app run electron-dev",
         "migrate:make": "npm -C ./packages/tactics-server run migrate:make",
         "migrate:latest": "npm -C ./packages/tactics-server run migrate:latest",
         "migrate:rollback": "npm -C ./packages/tactics-server run migrate:rollback",
         "presetup": "npm install",
-        "setup": "npm run bootstrap && npm run create:env && npm run create:db"
+        "setup": "npm run bootstrap && npm run create:env && npm run create:db",
+        "clean": "lerna clean"
     },
     "version": "0.0.1",
     "main": "index.js",
@@ -39,9 +40,7 @@
         "eslint-plugin-react-hooks": "^2.0.1",
         "lerna": "^3.6.0",
         "nodemon": "^1.19.1",
-        "webpack": "^4.39.3"
-    },
-    "dependencies": {
+        "webpack": "^4.39.3",
         "babel-eslint": "^10.0.3",
         "babel-loader": "^8.0.6",
         "clean-webpack-plugin": "^3.0.0",
@@ -49,7 +48,6 @@
         "css-hot-loader": "^1.4.4",
         "css-loader": "^3.2.0",
         "eslint-plugin-prettier": "^3.1.0",
-        "graphql": "^14.5.4",
         "html-webpack-plugin": "^3.2.0",
         "mini-css-extract-plugin": "^0.8.0",
         "node-sass": "^4.12.0",

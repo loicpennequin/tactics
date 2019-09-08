@@ -25,4 +25,11 @@ if (process.env.NODE_ENV === 'development') {
     });
 }
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(PUBLIC_PATH, 'home.html'));
+});
+app.get('/signup', (req, res) => {
+    res.sendFile(path.join(PUBLIC_PATH, 'signup.html'));
+});
+
 export default app;
